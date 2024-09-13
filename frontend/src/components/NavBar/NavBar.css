@@ -1,0 +1,19 @@
+.navbar-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
+
+a {
+    color: white; 
+    text-decoration: none; 
+}
+
+.navbar-item {
+    padding: 10px 15px; 
+    border-radius: 5px; 
+}
+
+.navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.2); 
+}
