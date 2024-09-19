@@ -1,27 +1,27 @@
 import { buildCreateSlice, asyncThunkCreator } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const apiUrl = import.meta.env.VITE_APP_API_URL
+
+const initialState = {
+    loginInfo: {},
+    loginLoading: false,
+    loginError: {},
+    saveLogin: '',
+    access: '',
+    refresh: '',
+    userId: '',
+}
 
 const createSliceWithThunk = buildCreateSlice({
     creators: { asyncThunk: asyncThunkCreator },
 })
 
-const initialState = {
-    loginInfo: [],
-    loginLoading: false,
-    saveLogin: '',
-    update: '',
-    access: '',
-    userId: '',
-    loginError: {}
-}
-
 export const loginSlice = createSliceWithThunk({
     name: 'login',
     initialState,
-    selectors: {
-        loginSelector: (state) => state.login
-    },
     reducers: (create) => ({
-        cleanInfo: create.reducer((state) => {
+        cleanLoginInfo: create.reducer((state) => {
             state.loginInfo = {}
         }),
         saveLogin: create.reducer((state, action) => {
@@ -33,32 +33,43 @@ export const loginSlice = createSliceWithThunk({
         fetchLogin: create.asyncThunk(
             async (user, { rejectWithValue }) => {
                 try {
-
-                } catch (e) {
-                    return rejectWithValue(e)
+                    const config = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        withCredentials: true
+                    }
+                    const response = await axios.post(`${apiUrl}token/`, user, config)
+                    return response.data
+                } catch (error) {
+                    if (error.response.status == 401) {
+                        return rejectWithValue({ message: error.response.status })
+                    }
                 }
             },
             {
                 pending: (state) => {
+                    state.loginInfo = {}
                     state.loginLoading = true
-                    state.loginError = ''
-                    state.loginInfo = []
+                    state.loginError = {}
                 },
                 fulfilled: (state, action) => {
                     state.loginInfo = action.payload
-                    state.update = action.payload.update
                     state.access = action.payload.access
+                    state.refresh = action.payload.refresh
                 },
                 rejected: (state, action) => {
-                    state.loginInfo = []
+                    state.loginInfo = {}
                     state.loginLoading = false
                     state.loginError = action.payload
-                }
+                },
+                settled: (state) => {
+                    state.loginLoading = false
+                } 
             }
         )
     })
 })
 
-export const { cleanInfo, saveLogin, saveUserId, fetchLogin } = loginSlice.actions
-export const { loginSelector } = loginSlice.selectors
+export const { cleanLoginInfo, saveLogin, saveUserId, fetchLogin } = loginSlice.actions
 export default loginSlice.reducer

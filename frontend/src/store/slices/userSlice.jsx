@@ -4,8 +4,6 @@ const apiUrl = import.meta.env.VITE_APP_API_URL
 
 const initialState = {
     userInfo: {},
-    userStatus: '',
-    saveLogin: '',
     userLoading: false,
     userError: ''
 }
@@ -24,20 +22,14 @@ export const userSlice = createSliceWithThunk({
         fetchUser: create.asyncThunk(
             async (id, { rejectWithValue }) => {
                 try {
-                    const response = await fetch(`${apiUrl}users/${id}`, {
-                        method: 'GET',
+                    const config = {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        credentials: 'include'
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        withCredentials: true
                     }
-
-                    const data = await response.json();
-                    return data;
+                    const response = await axios.get(`${apiUrl}users/${id}`, config)
+                    return response.data
                 } catch (error) {
                     console.log('Fetch error:', error);
                     return rejectWithValue(error.message);
@@ -45,16 +37,19 @@ export const userSlice = createSliceWithThunk({
             },
             {
                 pending: (state) => {
+                    state.userInfo = {}
                     state.userLoading = true
                     state.userError = ''
-                    state.userInfo = {}
                 },
                 fulfilled: (state, action) => {
                     state.userInfo = action.payload
                 },
                 rejected: (state, action) => {
                     state.userInfo = {}
-                    state.loginError = action.payload
+                    state.userError = action.payload
+                },
+                settled: (state) => {
+                    state.userLoading = false
                 }
             }
         )

@@ -1,14 +1,17 @@
 import React from 'react'
 import { useState } from 'react'
-import './Authorization.css'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { cleanSignupInfo, cleanSignupError, fetchSignup } from '../../store/slices/signupSlice'
+import './Authorization.css'
 
 export default function SignUp() {
 
   const [inputData, setInputData] = useState({login: '', fullname: '', email: '', password: ''})
-
   const { login, fullname, email, password } = inputData
+
+  const { signupInfo, signupError } = useSelector((state) => state.signup)
+  
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
