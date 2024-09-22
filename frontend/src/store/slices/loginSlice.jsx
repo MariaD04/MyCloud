@@ -6,7 +6,7 @@ const apiUrl = import.meta.env.VITE_APP_API_URL
 const initialState = {
     loginInfo: {},
     loginLoading: false,
-    loginError: {},
+    loginError: '',
     saveLogin: '',
     access: '',
     refresh: '',
@@ -51,7 +51,7 @@ export const loginSlice = createSliceWithThunk({
                 pending: (state) => {
                     state.loginInfo = {}
                     state.loginLoading = true
-                    state.loginError = {}
+                    state.loginError = ''
                 },
                 fulfilled: (state, action) => {
                     state.loginInfo = action.payload
