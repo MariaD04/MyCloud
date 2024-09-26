@@ -63,6 +63,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -93,7 +94,7 @@ DATABASES = {
         'ENGINE':  env('DB_ENGINE'),
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD')
+        'PASSWORD': env('DB_PASSWORD'),
     }
 }
 

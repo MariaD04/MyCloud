@@ -19,26 +19,27 @@ export default function LogIn() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (Object.keys(loginInfo).length == 0) return
-    userInfo.admin == true ? navigate('/users') : navigate('/disk')
-  }, [userInfo])
+    if (userInfo && Object.keys(loginInfo).length != 0) {
+      userInfo.is_superuser === true ? navigate('/users') : navigate('/disk');
+    }
+  }, [userInfo]);
 
   useEffect(() => {
-    if (loginError.message == 401) {
-      alert('Ошибка! Неправильно введён логин или пароль!')
-    } else if (Object.keys(loginInfo).length != 0) {
-      dispatch(saveLogin(login))
-
-      localStorage.clear()
-      localStorage.setItem('access_token', access)
-      localStorage.setItem('refresh_token', refresh)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`
-
-      const decoded = jwtDecode(access)
-      dispatch(fetchUser(decoded.user_id))
+    if (loginError.message === '401') {
+      alert('Ошибка! Неправильно введён логин или пароль!');
     } 
+    if (Object.keys(loginInfo).length !== 0) {
+      dispatch(saveLogin(login));
 
-  }, [loginInfo, loginError])
+      localStorage.clear();
+      localStorage.setItem('access_token', access);
+      localStorage.setItem('refresh_token', refresh);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+
+      const decoded = jwtDecode(access);
+      dispatch(fetchUser(decoded.user_id));
+    }
+  }, [loginInfo, loginError]);
 
   const inputChange = (e) => {
     e.preventDefault()
@@ -53,7 +54,7 @@ export default function LogIn() {
   const handleClick = (e) => {
     e.preventDefault()
     const user = {
-      login: login,
+      username: login,
       password: password
     }
     dispatch(fetchLogin(user))

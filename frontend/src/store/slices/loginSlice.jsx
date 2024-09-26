@@ -30,6 +30,9 @@ export const loginSlice = createSliceWithThunk({
         saveUserId: create.reducer((state, action) => {
             state.userId = action.payload
         }),
+        getEnterStatus: create.reducer((state, action) => {
+            state.enterStatus = action.payload
+        }),
         fetchLogin: create.asyncThunk(
             async (user, { rejectWithValue }) => {
                 try {

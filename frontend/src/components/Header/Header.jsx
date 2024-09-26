@@ -27,7 +27,7 @@ export default function Header() {
                     <button className='registration' onClick={() => navigate('/signup')}>Зарегистрироваться</button>
                 }
                 {Object.keys(loginInfo).length != 0 &&
-                    <button className='registration' onClick={() => navigate('/')}>Выход</button>
+                    <button className='logout' onClick={() => navigate('/')}>Выход</button>
                 }
             </div>
         </div>

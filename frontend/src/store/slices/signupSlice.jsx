@@ -6,7 +6,9 @@ const apiUrl = import.meta.env.VITE_APP_API_URL
 const initialState = {
     signupInfo: {},
     signupLoading: false,
-    signupError: {},
+    signupStatus: '',
+    signupError: '',
+    enterStatus: false,
     role: 'user'
 }
 
@@ -14,12 +16,15 @@ const createSliceWithThunk = buildCreateSlice({
     creators: { asyncThunk: asyncThunkCreator },
 })
 
-export const loginSlice = createSliceWithThunk({
+export const signupSlice = createSliceWithThunk({
     name: 'signup',
     initialState,
     reducers: (create) => ({
         cleanSignupInfo: create.reducer((state, action) => {
             state.signupInfo = action.payload
+        }),
+        cleanSignupStatus: create.reducer((state, action) => {
+            state.signupStatus = action.payload
         }),
         cleanSignupError: create.reducer((state, action) => {
             state.signupError = action.payload
@@ -32,23 +37,25 @@ export const loginSlice = createSliceWithThunk({
                             'Content-Type': 'application/json',
                         },
                         withCredentials: true
-                    }
+                    };
                     const response = await axios.post(`${apiUrl}registration/`, data, config)
                     return response.data
                 } catch (error) {
-                    if (error.response.status == 401) {
-                        return rejectWithValue({ message: error.response.status })
+                    if (error.response) {
+                        return rejectWithValue(error.response.data);
                     }
+                    return rejectWithValue('Сетевая ошибка');
                 }
             },
             {
                 pending: (state) => {
                     state.signupInfo = {}
                     state.signupLoading = true
-                    state.signupError = {}
+                    state.signupError = ''
                 },
                 fulfilled: (state, action) => {
                     state.signupInfo = action.payload
+                    state.signupLoading = false;
                 },
                 rejected: (state, action) => {
                     state.signupLoading = false
@@ -62,5 +69,5 @@ export const loginSlice = createSliceWithThunk({
     })
 })
 
-export const { cleanSignupInfo, cleanSignupError, fetchSignup } = signupSlice.actions
+export const { cleanSignupInfo, cleanSignupStatus, cleanSignupError, fetchSignup } = signupSlice.actions
 export default signupSlice.reducer

@@ -46,7 +46,7 @@ export const userSlice = createSliceWithThunk({
                 },
                 rejected: (state, action) => {
                     state.userInfo = {}
-                    state.userError = action.payload
+                    state.loginError = action.payload
                 },
                 settled: (state) => {
                     state.userLoading = false

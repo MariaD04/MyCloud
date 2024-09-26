@@ -4,7 +4,7 @@ from api.models import User, File
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['is_superuser', 'username', 'fullname', 'email', 'password']
+        fields = '__all__'
         extra_kwargs = {
             'password': {'write_only': True}
         }
