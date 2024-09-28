@@ -4,7 +4,6 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_APP_API_URL
 
 const initialState = {
-    logoutInfo: {},
     loginLoading: false,
     loginStatus: '',
     loginError: '',
@@ -39,12 +38,11 @@ export const logoutSlice = createSliceWithThunk({
             },
             {
                 pending: (state) => {
-                    state.logoutInfo = {}
                     state.loginLoading = true
                     state.loginError = ''
                 },
                 fulfilled: (state, action) => {
-                    state.logoutInfo = action.payload
+                    state.loginLoading = false;
                 },
                 rejected: (state, action) => {
                     state.loginLoading = false

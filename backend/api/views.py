@@ -49,8 +49,8 @@ class FileUpdateView(UpdateAPIView):
     serializer_class = FileSerializer
     permission_classes = (IsAuthenticated,)
 
-class FilesView(ListAPIView):
-    permission_classes = (IsAuthenticated,)  
+class FilesView(APIView):
+    permission_classes = (IsAuthenticated,) 
 
     def get(self, request, pk):
         files = File.objects.filter(owner_id=pk)  

@@ -42,7 +42,7 @@ export const loginSlice = createSliceWithThunk({
                         },
                         withCredentials: true
                     }
-                    const response = await axios.post(`${apiUrl}token/`, user, config)
+                    const response = await axios.post(`${apiUrl}api/token/`, user, config)
                     return response.data
                 } catch (error) {
                     if (error.response.status == 401) {
