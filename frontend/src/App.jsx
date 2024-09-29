@@ -6,7 +6,6 @@ import SignUp from './pages/Authorization/SignUp'
 import Disk from './pages/Disk/Disk'
 import Error from './pages/Error/Error'
 import Users from './pages/Users/Users'
-import User from './pages/User/User'
 import Header from './components/Header/Header'
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<LogIn />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/user' element={<User />} />
           <Route path='/users' element={<Users />} />
           <Route path='/disk' element={<Disk />} />
           <Route path='/*' element={<Error />} />

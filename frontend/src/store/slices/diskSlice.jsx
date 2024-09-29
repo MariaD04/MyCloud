@@ -16,7 +16,7 @@ const createSliceWithThunk = buildCreateSlice({
     creators: { asyncThunk: asyncThunkCreator },
 })
 
-export const loginSlice = createSliceWithThunk({
+export const diskSlice = createSliceWithThunk({
     name: 'disk',
     initialState,
     reducers: (create) => ({

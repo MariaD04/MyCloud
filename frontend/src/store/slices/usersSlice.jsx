@@ -1,4 +1,5 @@
 import { buildCreateSlice, asyncThunkCreator } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL
 
@@ -44,11 +45,10 @@ export const usersSlice = createSliceWithThunk({
                 },
                 fulfilled: (state, action) => {
                     state.usersInfo = action.payload
-                    state.usersLoading = false
                 },
                 rejected: (state, action) => {
                     state.usersInfo = {}
-                    state.loginError = action.payload
+                    state.usersError = action.error.message
                     state.deleteUser = ''
                 },
                 settled: (state) => {

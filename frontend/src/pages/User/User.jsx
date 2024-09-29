@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { deleteUserStatus } from '../../store/slices/usersSlice'
+import { fetchDisk } from '../../store/slices/diskSlice'
+import './User.css'
 
 const apiUrl = import.meta.env.VITE_APP_API_URL
 
@@ -21,6 +23,8 @@ export default function User({ id, username, fullname, email, is__superuser }) {
 
   const getUserFiles = (e) => {
     e.preventDefault()
+    dispatch(fetchDisk(id))
+    navigate('/disk')
   }
 
   return (
